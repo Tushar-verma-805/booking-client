@@ -1,25 +1,28 @@
+// src/App.tsx
 import React from 'react';
-import logo from './logo.svg';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Carpenters from './pages/carpenters/page';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Register from './pages/auth/register';
+import Login from './pages/auth/login';
+import { AuthProvider } from './context/AuthContext';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Carpenters />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
