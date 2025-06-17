@@ -12,9 +12,9 @@ const Login = () => {
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:8000/auth/login', { email, password });
-            localStorage.setItem('token', res.data.access_token);
-            localStorage.setItem('email', res.data.email);
-            navigate('/');
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('email', res.data.user.email);
+            navigate('/booking');
         } catch (error) {
             toast.error('Login failed. Please check your credentials.')
         }

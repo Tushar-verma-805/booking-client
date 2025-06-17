@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchBookedSlots } from '../service/carpenter.service';
 import { toast } from 'react-toastify';
+import { createBooking } from '../service/booking.service';
 
 interface SlotViewerProps {
     carpenter: { id: number; name: string };
@@ -30,31 +31,36 @@ const SlotViewer: React.FC<SlotViewerProps> = ({ carpenter, onClose }) => {
 
     // Handle booking
     const handleBooking = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            await fetch('http://localhost:8000/bookings', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    carpenterId: carpenter.id,
-                    date: selectedDate,
-                    time: selectedTime,
-                }),
-            });
-
-            toast.success('Booking successful!')
-            setSelectedTime('');
-            onClose();
-        } catch (err) {
-            console.error(err);
-            toast.error('Booking failed')
-        }
+        if (!selectedTime || !selectedDate) {
+            toast.warn('Please select a date and time');
+            return;
+          }
+        bookSlot();
+     
     };
 
-    console.log(bookedSlots);
+    const { mutate: bookSlot, isPending } = useMutation({
+        mutationFn: async () => {
+          const token = localStorage.getItem('token');
+          
+          if (!token) throw new Error('User not authenticated');
+      
+          return await createBooking({
+            carpenterId: carpenter.id,
+            date: selectedDate,
+            time: selectedTime,
+          });
+        },
+        onSuccess: () => {
+          toast.success('Booking successful!');
+          setSelectedTime('');
+          onClose();
+        },
+        onError: (error: any) => {
+          console.error(error);
+          toast.error(error.message || 'Booking failed');
+        },
+      });
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
