@@ -9,12 +9,15 @@ import Login from './pages/auth/login';
 import { AuthProvider } from './context/AuthContext';
 import HomePage from './pages/Home/page';
 import MyBookings from './pages/Bookings/page';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<HomePage />} />

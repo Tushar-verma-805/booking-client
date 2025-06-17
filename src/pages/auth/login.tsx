@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -13,10 +14,9 @@ const Login = () => {
             const res = await axios.post('http://localhost:8000/auth/login', { email, password });
             localStorage.setItem('token', res.data.access_token);
             localStorage.setItem('email', res.data.email);
-            alert('Login successful!');
             navigate('/');
         } catch (error) {
-            alert('Login failed. Please check your credentials.');
+            toast.error('Login failed. Please check your credentials.')
         }
     };
 
@@ -24,8 +24,8 @@ const Login = () => {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-100 via-blue-50 to-white px-4">
             <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-8 border border-blue-100">
                 <div className="text-center mb-6">
-                    <div className="flex justify-center items-center gap-2 text-blue-700 text-2xl font-bold mb-2">
-                        <img src="/logo.png" alt="CarpenterBook" className="h-7" />
+                    <div className="flex justify-center  items-center gap-2 text-blue-700 text-2xl font-bold mb-10">
+                        {/* <img src="/logo.png" alt="CarpenterBook" className="h-7" /> */}
                         CarpenterBook
                     </div>
                     <h2 className="text-2xl font-semibold text-gray-800">Welcome Back 👋</h2>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchBookedSlots } from '../service/carpenter.service';
+import { toast } from 'react-toastify';
 
 interface SlotViewerProps {
     carpenter: { id: number; name: string };
@@ -44,12 +45,12 @@ const SlotViewer: React.FC<SlotViewerProps> = ({ carpenter, onClose }) => {
                 }),
             });
 
-            alert('Booking successful!');
+            toast.success('Booking successful!')
             setSelectedTime('');
             onClose();
         } catch (err) {
             console.error(err);
-            alert('Booking failed');
+            toast.error('Booking failed')
         }
     };
 
