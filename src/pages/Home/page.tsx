@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
                     Book experienced carpenters for your home improvement needs. Quality work, flexible scheduling, trusted professionals.
                 </p>
                 <Link
-                    to="/book"
+                    to="/booking"
                     className="bg-gradient-to-r from-blue-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold shadow hover:opacity-90 transition"
                 >
                     Book a Carpenter Now

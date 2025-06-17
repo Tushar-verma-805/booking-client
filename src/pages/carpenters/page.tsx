@@ -39,7 +39,7 @@ const Carpenters: React.FC = () => {
                         >
                             <div className="flex items-center gap-4 mb-4">
                                 <img
-                                    src={`https://i.pravatar.cc/150?u=${carpenter.id}`}
+                                    src={`https://i.pravatar.cc/150?u=''`}
                                     alt={carpenter.name}
                                     className="w-14 h-14 rounded-full object-cover"
                                 />
