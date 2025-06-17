@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import SlotViewer from '../../components/SlotViewer'; // Adjust path if needed
+import { fetchCarpenters } from '../../service/carpenter.service';
 
 interface Carpenter {
     id: number;
@@ -9,13 +10,6 @@ interface Carpenter {
     description: string;
 }
 
-const fetchCarpenters = async () => {
-    const token = localStorage.getItem('token');
-    const res = await axios.get('http://localhost:8000/carpenters', {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-    return res.data;
-};
 
 const Carpenters: React.FC = () => {
     const { data, isLoading, error } = useQuery<Carpenter[]>({
