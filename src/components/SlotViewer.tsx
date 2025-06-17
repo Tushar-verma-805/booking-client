@@ -101,11 +101,10 @@ const SlotViewer: React.FC<SlotViewerProps> = ({ carpenter, onClose }) => {
                         })}
                     </div>
                 )}
-
                 <button
                     disabled={!selectedTime}
                     onClick={handleBooking}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-blue-500 to-orange-500 text-white px-6 py-3 rounded-lg font-semibold shadow hover:opacity-90 transition disabled:cursor-not-allowed"
                 >
                     Book Slot {selectedTime && `at ${selectedTime}`}
                 </button>

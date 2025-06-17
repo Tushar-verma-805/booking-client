@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import SlotViewer from '../../components/SlotViewer'; // Adjust path if needed
+import SlotViewer from '../../components/SlotViewer';
 import { fetchCarpenters } from '../../service/carpenter.service';
+import Header from '../../components/Header';
 
 interface Carpenter {
     id: number;
     name: string;
-    description: string;
+    description: string; // Comma-separated specialties
+    rating?: number;
+    experience?: number;
 }
-
 
 const Carpenters: React.FC = () => {
     const { data, isLoading, error } = useQuery<Carpenter[]>({
@@ -23,39 +24,67 @@ const Carpenters: React.FC = () => {
     if (error) return <div className="text-red-500 text-center mt-10">Error loading data</div>;
 
     return (
-        <div className="min-h-screen bg-gradient-to-tr from-blue-50 to-blue-200 p-6">
-            <h1 className="text-3xl font-bold text-blue-800 mb-6 text-center">Available Carpenters</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data?.map((carpenter) => (
-                    <div key={carpenter.id} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
-                        <div className="flex items-center gap-4 mb-4">
-                            <img
-                                src={`https://i.pravatar.cc/150?u=${carpenter.id}`}
-                                alt={carpenter.name}
-                                className="w-16 h-16 rounded-full object-cover border"
-                            />
+        <>
+            <Header />
+            <div className="min-h-screen bg-gray-50 py-8 px-4">
+                <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6 text-center">
+                    Choose Your Carpenter
+                </h1>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    {data?.map((carpenter) => (
+                        <div
+                            key={carpenter.id}
+                            onClick={() => setSelectedCarpenter(carpenter)}
+                            className={`cursor-pointer bg-white rounded-xl border hover:border-blue-500 shadow-sm hover:shadow-md transition-all duration-300 p-5`}
+                        >
+                            <div className="flex items-center gap-4 mb-4">
+                                <img
+                                    src={`https://i.pravatar.cc/150?u=${carpenter.id}`}
+                                    alt={carpenter.name}
+                                    className="w-14 h-14 rounded-full object-cover"
+                                />
+                                <div>
+                                    <h2 className="text-lg font-bold text-gray-800">{carpenter.name}</h2>
+                                    <div className="flex items-center gap-3 text-sm text-gray-600 mt-1">
+                                        <span className="flex items-center gap-1">
+                                            <span className="text-yellow-500">★</span>
+                                            {(carpenter.rating ?? 4.8).toFixed(1)}
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            <span className="text-blue-600">👤</span>
+                                            {(carpenter.experience ?? 8)} years
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div>
-                                <h2 className="text-lg font-semibold text-gray-800">{carpenter.name}</h2>
-                                <p className="text-sm text-gray-600">{carpenter.description}</p>
+                                <p className="text-sm font-medium text-gray-700 mb-2">Specialties:</p>
+                                <div className="flex flex-wrap gap-2">
+                                    {(carpenter.description || '')
+                                        .split(',')
+                                        .map((tag) => (
+                                            <span
+                                                key={tag.trim()}
+                                                className="px-3 py-1 text-sm bg-gray-200 rounded-full text-gray-700"
+                                            >
+                                                {tag.trim()}
+                                            </span>
+                                        ))}
+                                </div>
                             </div>
                         </div>
-                        <button
-                            className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-                            onClick={() => setSelectedCarpenter(carpenter)}
-                        >
-                            View Available Slots
-                        </button>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
 
-            {selectedCarpenter && (
-                <SlotViewer
-                    carpenter={selectedCarpenter}
-                    onClose={() => setSelectedCarpenter(null)}
-                />
-            )}
-        </div>
+                {selectedCarpenter && (
+                    <SlotViewer
+                        carpenter={selectedCarpenter}
+                        onClose={() => setSelectedCarpenter(null)}
+                    />
+                )}
+            </div>
+        </>
     );
 };
 
