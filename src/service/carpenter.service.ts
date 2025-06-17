@@ -12,6 +12,7 @@ export const fetchCarpenters = async () => {
 
 export const fetchBookedSlots = async (id: number, date: string) => {
     const token = localStorage.getItem('token');
+    console.log(`/bookings/carpenter/${id}?date=${date}`)
     const res = await api.get(`/bookings/carpenter/${id}?date=${date}`, {
         headers: { Authorization: `Bearer ${token}` },
     });

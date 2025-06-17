@@ -19,7 +19,7 @@ const SlotViewer: React.FC<SlotViewerProps> = ({ carpenter, onClose }) => {
     const { data: bookedSlots = [], isLoading } = useQuery<any[]>({
         queryKey: ['bookedSlots', carpenter.id, selectedDate],
         queryFn: () => fetchBookedSlots(carpenter.id, selectedDate),
-        staleTime: 5 * 60 * 1000,
+        // staleTime: 5 * 60 * 1000,
     });
 
     // FIX: Ensure correct parsing of 'HH:mm:ss' to get hour
@@ -76,7 +76,7 @@ const SlotViewer: React.FC<SlotViewerProps> = ({ carpenter, onClose }) => {
                         className="w-full px-3 py-2 border rounded-md"
                         value={selectedDate}
                         min={moment().format('YYYY-MM-DD')}
-                        max={moment().add(6, 'days').format('YYYY-MM-DD')}
+                        max={moment().add(30, 'days').format('YYYY-MM-DD')}
                         onChange={(e) => setSelectedDate(e.target.value)}
                     />
                 </div>

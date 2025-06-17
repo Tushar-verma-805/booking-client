@@ -18,6 +18,8 @@ const Carpenters: React.FC = () => {
         queryFn: fetchCarpenters,
     });
 
+    const specialties = ['Wardrobe', 'Modular Kitchen', 'Repair']
+
     const [selectedCarpenter, setSelectedCarpenter] = useState<Carpenter | null>(null);
 
     if (isLoading) return <div className="text-center mt-10">Loading carpenters...</div>;
@@ -61,16 +63,14 @@ const Carpenters: React.FC = () => {
                             <div>
                                 <p className="text-sm font-medium text-gray-700 mb-2">Specialties:</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {(carpenter.description || '')
-                                        .split(',')
-                                        .map((tag) => (
-                                            <span
-                                                key={tag.trim()}
-                                                className="px-3 py-1 text-sm bg-gray-200 rounded-full text-gray-700"
-                                            >
-                                                {tag.trim()}
-                                            </span>
-                                        ))}
+                                    {specialties.map((tag) => (
+                                        <span
+                                            key={tag.trim()}
+                                            className="px-3 py-1 text-sm bg-gray-200 rounded-full text-gray-700"
+                                        >
+                                            {tag.trim()}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                         </div>
