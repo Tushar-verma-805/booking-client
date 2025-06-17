@@ -55,7 +55,7 @@ const HomePage: React.FC = () => {
                 <h2 className="text-2xl font-semibold mb-2">Ready to Get Started?</h2>
                 <p className="mb-6 text-sm">Browse available carpenters and book your preferred time slot in just a few clicks.</p>
                 <Link
-                    to="/book"
+                    to="/booking"
                     className="bg-white text-blue-700 font-semibold py-2 px-5 rounded shadow hover:bg-gray-100 transition"
                 >
                     View Available Slots
